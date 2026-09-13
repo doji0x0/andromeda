@@ -2,8 +2,8 @@ import type { Metadata, Viewport } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Andromeda | Influence Beyond Borders',
-  description: 'Andromeda connects brands with the right creators to create meaningful impact across the GCC.',
+  title: 'Andromeda | Influencer Marketing Across the Arab World',
+  description: 'Andromeda connects brands and creators across Sudan and the Arab world with managed influencer campaigns — sourcing, contracts, and reporting, all in one place.',
 }
 
 export const viewport: Viewport = {
