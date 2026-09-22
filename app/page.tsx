@@ -4,7 +4,6 @@ import Image from "next/image"
 import { FormEvent, useEffect, useRef, useState } from "react"
 import { ArrowDown, ArrowUpRight, ChartNoAxesCombined, Check, ChevronDown, Handshake, Images, Menu, Mic2, Radio, Search, Share2, Target, X, type LucideIcon } from "lucide-react"
 import { PageInteractions } from "@/components/page-interactions"
-import { AndromedaChatWidget } from "@/components/andromeda-chat-widget"
 
 const logo = "/andromeda-logo.png"
 
@@ -24,13 +23,6 @@ const gapComparison = [
   ["No contract — payment and deliverables left to trust", "One clear contract covering everyone involved"],
   ["No way to compare results across creators", "A single performance report comparing every creator"],
   ["Hours spent managing instead of growing the business", "One point of contact, one price, campaign fully managed"],
-]
-
-const pillars = [
-  ["Creator Sourcing & Matching", "We identify and vet the right KOLs for each brand."],
-  ["Campaign Management", "We plan and run the full campaign from briefing through publishing."],
-  ["Contracts & Payments", "Every campaign runs on one clear agreement protecting both sides."],
-  ["Reporting & Insights", "Every campaign closes with a full performance report and comparative analysis."],
 ]
 
 const whyAndromeda = [
@@ -58,7 +50,7 @@ const creatorBenefits = [
 ]
 
 const brandProcess = [
-  "Tell us about your brand — through the Andromeda Assistant or a short form",
+  "Tell us about your brand through a short form",
   "We shortlist vetted creators matched to your goals, category, and budget",
   "You approve the match, and we handle the contract with the creator(s)",
   "We manage the full campaign — briefing, content direction, publishing",
@@ -182,16 +174,9 @@ export default function Home() {
 
       <section className="about-section section-pad" id="about">
         <SectionKicker number="02">About Us</SectionKicker>
-        <article className="about-lead"><h2>Who We Are</h2><div className="long-copy"><p>Andromeda is an influencer marketing agency and matchmaking platform built for the Arab world, starting in Sudan and extending across the region. We exist to close the gap between two groups who need each other but rarely find each other easily: brands looking for real audiences, and creators (KOLs) looking for real opportunities.</p><p>We manage the entire relationship between a brand and a creator — from finding the right match, to running the campaign, to delivering a clear report that shows what happened and why it mattered. One KOL or a full multi-creator campaign, we run it end-to-end so brands can focus on their business, and creators can focus on their craft.</p><p>Our name reflects what we believe influencer marketing should feel like: a galaxy of voices, connected with intention — not scattered, not random, but guided toward the right audience, at the right moment.</p></div></article>
+        <article className="about-lead"><h2>Who We Are</h2><div className="long-copy"><p>Andromeda is an influencer marketing agency and matchmaking platform built for the Arab world, starting in Sudan and extending across the region. We exist to close the gap between two groups who need each other but rarely find each other easily: brands looking for real audiences, and creators (KOLs) looking for real opportunities.</p><p>We manage the entire relationship between a brand and a creator — from finding the right match, to running the campaign, to delivering a clear report that shows what happened and why it mattered. One KOL or a full multi-creator campaign, we run it end-to-end so brands can focus on their business, and creators can focus on their craft.</p><p>Our name reflects what we believe influencer marketing should feel like: a galaxy of voices, connected with intention — not scattered, not random, but guided toward the right audience, at the right moment.</p><p><strong>Our team:</strong> Andromeda is built and run by a team of four — Mahgoub, Khadiga, Abdala, and Aya. We are part of the generation we serve: young, hands-on, and genuinely passionate about building a fairer, more professional way for Arab brands and creators to work together.</p></div></article>
 
         <article className="about-block gap-block"><div className="subsection-heading"><h3>The Gap We Close</h3></div><p className="wide-copy">Most influencer marketing in the region is built for big companies with big budgets. Small and growing brands — the café opening its second branch, the skincare line just finding its audience, the local fashion label going online — are usually left to figure it out alone: messaging creators one by one, with no strategy, no contract, and no way to measure what actually worked.</p><div className="comparison"><div className="comparison-head"><span>Without Andromeda</span><span>With Andromeda</span></div>{gapComparison.map(([without, withAndromeda]) => <div className="comparison-row" key={without}><p>{without}</p><p>{withAndromeda}</p></div>)}</div></article>
-
-        <article className="about-block"><div className="subsection-heading"><h3>What We Do</h3></div><p className="wide-copy">Andromeda manages influencer marketing from start to finish, for brands of every size — from a single sponsored post to a fully managed, multi-creator campaign, built around four pillars:</p><div className="pillar-grid">{pillars.map(([title, body], index) => <div className="pillar-card" key={title}><span>{String(index + 1).padStart(2, "0")}</span><h4>{title}</h4><p>{body}</p></div>)}</div><a className="text-link pillar-services-link" href="#services">Explore all services <ArrowDown size={15} /></a></article>
-
-        <div className="about-tail">
-          <article><h3>Where We Operate</h3><p>Starting in Sudan and expanding to Saudi Arabia, the UAE, and the wider Arab region — Andromeda is built to grow with the creator economy across the Arab world, not just in one market.</p></article>
-          <article><h3>Our Team</h3><p>Andromeda is built and run by a team of four — Mahgoub, Khadiga, Abdala, and Aya. We are part of the generation we serve — young, hands-on, and genuinely passionate about the idea behind this company: that the Arab world's brands and creators deserve a fairer, more professional way to work together. We understand creators because we grew up alongside them online, and we understand brands because we are building one ourselves.</p></article>
-        </div>
 
         <article className="why-block"><h3>Why Andromeda</h3><BenefitList items={whyAndromeda} /></article>
       </section>
@@ -199,8 +184,6 @@ export default function Home() {
       <section className="audience-section section-pad" id="audiences">
         <SectionKicker number="03">For Brands & Creators</SectionKicker>
         <div className="audience-heading"><h2>Built for both sides of the <em>creator economy.</em></h2><p>Andromeda connects brands with the right creators and gives creators access to real, professional opportunities.</p></div>
-        <p className="audience-helper">Need help choosing? Open the Andromeda Assistant.</p>
-
         <div className="static-paths">
           <article className="path-panel path-brand" tabIndex={0} id="for-brands"><p className="eyebrow">For Brands</p><h3>Get discovered by the right audience</h3><p className="path-subhead">Grow your brand with creators your customers already trust.</p><h4>What you get</h4><BenefitList items={brandBenefits} /><p className="best-for"><strong>Best for:</strong> cafés & restaurants, beauty & fashion brands, e-commerce, real estate, and lifestyle businesses ready to grow with real audiences.</p><a className="button button-dark" href="#contact" onClick={() => selectContactRole("Brand")}>Book a Campaign <ArrowUpRight size={16} /></a></article>
           <article className="path-panel path-creator" tabIndex={0} id="for-creators"><p className="eyebrow">For Creators</p><h3>Turn your content into real income</h3><p className="path-subhead">Join a growing network of KOLs working with real, paying brands.</p><h4>What you get</h4><BenefitList items={creatorBenefits} /><p className="best-for"><strong>Best for:</strong> creators of any size, on Instagram, TikTok, or Snapchat, who want consistent, professional brand partnerships.</p><a className="button button-blue" href="#contact" onClick={() => selectContactRole("Creator")}>Join as a Creator <ArrowUpRight size={16} /></a></article>
@@ -258,7 +241,6 @@ export default function Home() {
         {/* Social links are intentionally hidden until official profiles are confirmed. */}
         <p className="copyright">© 2026 Andromeda. All rights reserved.</p>
       </footer>
-      <AndromedaChatWidget />
     </main>
   )
 }

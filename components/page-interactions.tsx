@@ -5,7 +5,7 @@ export function PageInteractions() {
   useEffect(() => {
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)')
     if (reduced.matches) return
-    const targets = document.querySelectorAll<HTMLElement>('.section-kicker, .intro-grid > *, .categories-block, .about-lead h2, .long-copy p, .about-block > *, .about-tail article, .why-block > *, .audience-heading > *, .path-panel, .dual-process h2, .dual-process li, .faq-layout > *, .services-heading > *, .service-row, .closing-banner > *, .contact-layout > *')
+    const targets = document.querySelectorAll<HTMLElement>('.section-kicker, .intro-grid > *, .categories-block, .about-lead h2, .long-copy p, .about-block > *, .why-block > *, .audience-heading > *, .path-panel, .dual-process h2, .dual-process li, .faq-layout > *, .services-heading > *, .service-card, .closing-banner > *, .contact-layout > *')
     const observer = new IntersectionObserver(entries => entries.forEach(entry => {
       if (entry.isIntersecting) { entry.target.classList.add('revealed'); if (entry.target.matches('.dual-process li')) { const list = entry.target.parentElement; if (list) { const index = Array.from(list.children).indexOf(entry.target); const progress = (index + 1) / list.children.length; list.style.setProperty('--path-progress', String(Math.max(Number(list.style.getPropertyValue('--path-progress')) || 0, progress))) } } observer.unobserve(entry.target) }
     }), { threshold: 0.12, rootMargin: '0px 0px -20px 0px' })
