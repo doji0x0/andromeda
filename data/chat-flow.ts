@@ -30,5 +30,5 @@ export function prepareEmail(role: Role, answers: Answers, recipient = intakeCon
   const body = role === 'brand'
     ? `Hi Andromeda Team,\n\nI’d like to discuss a campaign with Andromeda.\n\nBrand Name: ${name}\nCategory: ${displayAnswer(answers.category)}\nCampaign Goal: ${displayAnswer(answers.goal)}\n\nServices I’m interested in:\n${(Array.isArray(answers.services) ? answers.services : []).map(s => `- ${s}`).join('\n')}\n\nNumber of Creators: ${displayAnswer(answers.creators)}\n\nAdditional Notes:\n${notes}\n\nBest,`
     : `Hi Andromeda Team,\n\nName: ${name}\nPlatform: ${displayAnswer(answers.platform)}\nNiche: ${displayAnswer(answers.niche)}\nFollower Range: ${displayAnswer(answers.followers)}\n\nAdditional Notes:\n${notes}\n\nBest,\n${name}`
-  return { subject, body, href: recipient.trim() ? `mailto:${encodeURIComponent(recipient.trim())}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}` : null }
+  return { subject, body, href: `mailto:${encodeURIComponent(recipient.trim())}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}` }
 }
