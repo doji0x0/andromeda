@@ -2,7 +2,7 @@
 
 import Image from "next/image"
 import { FormEvent, useEffect, useRef, useState } from "react"
-import { ArrowDown, ArrowUpRight, Check, ChevronDown, Menu, X } from "lucide-react"
+import { ArrowDown, ArrowUpRight, ChartNoAxesCombined, Check, ChevronDown, Handshake, Images, Menu, Mic2, Radio, Search, Share2, Target, X, type LucideIcon } from "lucide-react"
 import { PageInteractions } from "@/components/page-interactions"
 import { AndromedaChatWidget } from "@/components/andromeda-chat-widget"
 
@@ -81,15 +81,15 @@ const faqs = [
   ["Do brands and creators deal with each other directly?", "No — Andromeda manages the relationship end-to-end, including the contract, briefing, and payment, so neither side has to chase the other."],
 ]
 
-const services = [
-  ["01", "Creator (KOL) Sourcing & Management", "Identification, vetting, and management of the right creators for each brand — matched by audience, content style, engagement quality, and category, not follower count alone."],
-  ["02", "Campaign Management", "End-to-end planning and execution of influencer campaigns, from briefing and content direction through to publishing, so brands are never required to manage creators directly."],
-  ["03", "Livestream Management", "Coordination and oversight of creator-led livestream content, from planning through to execution, as part of a brand's wider campaign."],
-  ["04", "Event & Campaign Hosting", "Management of hosting requirements for brand activations and campaign-related events, ensuring creators and brand representatives are aligned and well-prepared."],
-  ["05", "UGC (User-Generated Content)", "Production and coordination of authentic, creator-made content for brands to use across their own marketing channels."],
-  ["06", "Social Media Management", "Ongoing management of a brand's social media presence, ensuring consistency between creator campaigns and the brand's own channels."],
-  ["07", "Contracts & Payments", "A clear agreement between brand, creator, and Andromeda for every engagement, covering deliverables, timelines, and payment, so both sides are protected from the outset."],
-  ["08", "Reporting & Insights", "A comprehensive report and comparative analysis at the close of every campaign — covering reach, engagement, and performance — providing brands with a clear, measurable view of results."],
+const services: [string, string, LucideIcon][] = [
+  ["Creator (KOL) Sourcing & Management", "Identification, vetting, and management of the right creators for each brand — matched by audience, content style, engagement quality, and category, not follower count alone.", Search],
+  ["Campaign Management", "End-to-end planning and execution of influencer campaigns, from briefing and content direction through to publishing, so brands are never required to manage creators directly.", Target],
+  ["Livestream Management", "Coordination and oversight of creator-led livestream content, from planning through to execution, as part of a brand's wider campaign.", Radio],
+  ["Event & Campaign Hosting", "Management of hosting requirements for brand activations and campaign-related events, ensuring creators and brand representatives are aligned and well-prepared.", Mic2],
+  ["UGC (User-Generated Content)", "Production and coordination of authentic, creator-made content for brands to use across their own marketing channels.", Images],
+  ["Social Media Management", "Ongoing management of a brand's social media presence, ensuring consistency between creator campaigns and the brand's own channels.", Share2],
+  ["Contracts & Payments", "A clear agreement between brand, creator, and Andromeda for every engagement, covering deliverables, timelines, and payment, so both sides are protected from the outset.", Handshake],
+  ["Reporting & Insights", "A comprehensive report and comparative analysis at the close of every campaign — covering reach, engagement, and performance — providing brands with a clear, measurable view of results.", ChartNoAxesCombined],
 ]
 
 const serviceProcess = [
@@ -117,6 +117,7 @@ export default function Home() {
   const [contactRole, setContactRole] = useState("Brand")
   const [submitted, setSubmitted] = useState(false)
   const [processVisible, setProcessVisible] = useState(false)
+  const [activeService, setActiveService] = useState<string | null>(null)
   const processRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -220,9 +221,16 @@ export default function Home() {
       </section>
 
       <section className="services-section section-pad" id="services">
-        <SectionKicker number="06">Services</SectionKicker>
+        <p className="services-kicker">Services</p>
         <div className="services-heading"><h2>Our <em>Services</em></h2><p>Andromeda provides a complete suite of influencer marketing services, allowing brands to partner with us for a single requirement or for the full scope of a campaign.</p></div>
-        <div className="service-list">{services.map(([number, title, description]) => <article className="service-row" tabIndex={0} key={number}><span>{number}</span><h3>{title}</h3><p>{description}</p></article>)}</div>
+        <div className="service-list">{services.map(([title, description, Icon]) => {
+          const isExpanded = activeService === title
+          return <button className={`service-card${isExpanded ? " is-expanded" : ""}`} type="button" aria-expanded={isExpanded} onClick={() => setActiveService((active) => active === title ? null : title)} key={title}>
+            <span className="service-icon" aria-hidden="true"><Icon strokeWidth={1.5} /></span>
+            <span className="service-title">{title}</span>
+            <span className="service-description">{description}</span>
+          </button>
+        })}</div>
         <div className={`service-process${processVisible ? " process-visible" : ""}`} ref={processRef}><p className="eyebrow">Our Process</p><ol className="process-timeline">{serviceProcess.map(([number, title, description]) => <li className="process-step" key={number}><span className="process-node">{number}</span><div className="process-copy"><h4>{title}</h4><p>{description}</p></div></li>)}</ol></div>
       </section>
 
