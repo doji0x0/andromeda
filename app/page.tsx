@@ -4,6 +4,7 @@ import Image from "next/image"
 import { FormEvent, useEffect, useRef, useState } from "react"
 import { ArrowDown, ArrowUpRight, ChartNoAxesCombined, Check, ChevronDown, Handshake, Images, Menu, Mic2, Radio, Search, Share2, Target, X, type LucideIcon } from "lucide-react"
 import { PageInteractions } from "@/components/page-interactions"
+import { AndromedaChatWidget } from "@/components/andromeda-chat-widget"
 
 const logo = "/andromeda-logo.png"
 
@@ -241,6 +242,7 @@ export default function Home() {
         {/* Social links are intentionally hidden until official profiles are confirmed. */}
         <p className="copyright">© 2026 Andromeda. All rights reserved.</p>
       </footer>
+      <AndromedaChatWidget />
     </main>
   )
 }
