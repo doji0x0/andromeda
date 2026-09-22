@@ -3,6 +3,7 @@
 import Image from "next/image"
 import { FormEvent, useEffect, useRef, useState } from "react"
 import { ArrowDown, ArrowUpRight, Check, ChevronDown, Menu, X } from "lucide-react"
+import { PageInteractions } from "@/components/page-interactions"
 import { AndromedaChatWidget } from "@/components/andromeda-chat-widget"
 
 const logo = "/andromeda-logo.png"
@@ -142,6 +143,7 @@ export default function Home() {
 
   return (
     <main className="editorial-site">
+      <PageInteractions />
       <header className="site-header">
         <a className="brand" href="#home" aria-label="Andromeda home"><Brand priority /></a>
         <nav className="nav" aria-label="Primary navigation">{navItems.map(([label, href]) => <a key={href} href={href}>{label}</a>)}</nav>
@@ -199,8 +201,8 @@ export default function Home() {
         <p className="audience-helper">Need help choosing? Open the Andromeda Assistant.</p>
 
         <div className="static-paths">
-          <article className="path-panel path-brand" id="for-brands"><p className="eyebrow">For Brands</p><h3>Get discovered by the right audience</h3><p className="path-subhead">Grow your brand with creators your customers already trust.</p><h4>What you get</h4><BenefitList items={brandBenefits} /><p className="best-for"><strong>Best for:</strong> cafés & restaurants, beauty & fashion brands, e-commerce, real estate, and lifestyle businesses ready to grow with real audiences.</p><a className="button button-dark" href="#contact" onClick={() => selectContactRole("Brand")}>Book a Campaign <ArrowUpRight size={16} /></a></article>
-          <article className="path-panel path-creator" id="for-creators"><p className="eyebrow">For Creators</p><h3>Turn your content into real income</h3><p className="path-subhead">Join a growing network of KOLs working with real, paying brands.</p><h4>What you get</h4><BenefitList items={creatorBenefits} /><p className="best-for"><strong>Best for:</strong> creators of any size, on Instagram, TikTok, or Snapchat, who want consistent, professional brand partnerships.</p><a className="button button-blue" href="#contact" onClick={() => selectContactRole("Creator")}>Join as a Creator <ArrowUpRight size={16} /></a></article>
+          <article className="path-panel path-brand" tabIndex={0} id="for-brands"><p className="eyebrow">For Brands</p><h3>Get discovered by the right audience</h3><p className="path-subhead">Grow your brand with creators your customers already trust.</p><h4>What you get</h4><BenefitList items={brandBenefits} /><p className="best-for"><strong>Best for:</strong> cafés & restaurants, beauty & fashion brands, e-commerce, real estate, and lifestyle businesses ready to grow with real audiences.</p><a className="button button-dark" href="#contact" onClick={() => selectContactRole("Brand")}>Book a Campaign <ArrowUpRight size={16} /></a></article>
+          <article className="path-panel path-creator" tabIndex={0} id="for-creators"><p className="eyebrow">For Creators</p><h3>Turn your content into real income</h3><p className="path-subhead">Join a growing network of KOLs working with real, paying brands.</p><h4>What you get</h4><BenefitList items={creatorBenefits} /><p className="best-for"><strong>Best for:</strong> creators of any size, on Instagram, TikTok, or Snapchat, who want consistent, professional brand partnerships.</p><a className="button button-blue" href="#contact" onClick={() => selectContactRole("Creator")}>Join as a Creator <ArrowUpRight size={16} /></a></article>
         </div>
       </section>
 
@@ -220,7 +222,7 @@ export default function Home() {
       <section className="services-section section-pad" id="services">
         <SectionKicker number="06">Services</SectionKicker>
         <div className="services-heading"><h2>Our <em>Services</em></h2><p>Andromeda provides a complete suite of influencer marketing services, allowing brands to partner with us for a single requirement or for the full scope of a campaign.</p></div>
-        <div className="service-list">{services.map(([number, title, description]) => <article className="service-row" key={number}><span>{number}</span><h3>{title}</h3><p>{description}</p></article>)}</div>
+        <div className="service-list">{services.map(([number, title, description]) => <article className="service-row" tabIndex={0} key={number}><span>{number}</span><h3>{title}</h3><p>{description}</p></article>)}</div>
         <div className={`service-process${processVisible ? " process-visible" : ""}`} ref={processRef}><p className="eyebrow">Our Process</p><ol className="process-timeline">{serviceProcess.map(([number, title, description]) => <li className="process-step" key={number}><span className="process-node">{number}</span><div className="process-copy"><h4>{title}</h4><p>{description}</p></div></li>)}</ol></div>
       </section>
 

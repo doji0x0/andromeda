@@ -1,132 +1,114 @@
 "use client"
 
-import Image from "next/image"
-import { useEffect, useRef, useState } from "react"
-import {
-  assistantFaqs,
-  assistantHomeOptions,
-  assistantProcesses,
-  assistantServices,
-  brandAnswers,
-  creatorAnswers,
-  type AssistantView,
-} from "@/data/chatbot-content"
+import Image from 'next/image'
+import { Check } from 'lucide-react'
+import { FormEvent, useEffect, useRef, useState } from 'react'
+import { Answers, chatFlows, displayAnswer, prepareEmail, Question, Role } from '@/data/chat-flow'
 
-const logo = "/andromeda-logo.png"
-
-function BackButton({ onClick }: { onClick: () => void }) {
-  return <button className="assistant-back" type="button" onClick={onClick}>← Back</button>
+function AnswerInput({ question, value, onAnswer }: { question: Question; value?: string | string[]; onAnswer: (value: string | string[]) => void }) {
+  const [text, setText] = useState(typeof value === 'string' ? value : '')
+  const [selected, setSelected] = useState<string[]>(Array.isArray(value) ? value : [])
+  const [custom, setCustom] = useState(Boolean(question.options && typeof value === 'string' && !question.options.includes(value)))
+  function submit(event: FormEvent) { event.preventDefault(); if (question.multiple ? selected.length : text.trim()) onAnswer(question.multiple ? selected : text.trim()) }
+  return <form className="intake-input" onSubmit={submit}>
+    {question.options && <div className="assistant-menu">{question.options.map(option => <button type="button" key={option} aria-pressed={question.multiple ? selected.includes(option) : custom && option === 'Other'} onClick={() => {
+      if (question.multiple) setSelected(current => current.includes(option) ? current.filter(s => s !== option) : [...current, option])
+      else if (option === 'Other') { setCustom(true); setText('') }
+      else onAnswer(option)
+    }} className={selected.includes(option) || (custom && option === 'Other') ? 'selected' : ''}>{option}</button>)}</div>}
+    {(!question.options || custom) && <label><span>{custom ? `Custom ${question.label.toLowerCase()}` : question.label}</span><textarea aria-label={custom ? `Custom ${question.label.toLowerCase()}` : question.label} rows={question.optional ? 3 : 2} maxLength={question.optional ? 3000 : 200} value={text} onChange={e => setText(e.target.value)} required={!question.optional} /></label>}
+    {(question.multiple || !question.options || custom) && <button className="assistant-link assistant-link-primary" type="submit" disabled={question.multiple ? !selected.length : !text.trim()}>Continue</button>}
+    {question.optional && <button type="button" className="assistant-back" onClick={() => onAnswer('')}>Skip</button>}
+  </form>
 }
 
-function ScrollLink({ href, children, onNavigate, primary = false }: { href: string; children: React.ReactNode; onNavigate: () => void; primary?: boolean }) {
-  return <a className={`assistant-link${primary ? " assistant-link-primary" : ""}`} href={href} onClick={onNavigate}>{children}<span aria-hidden="true">↗</span></a>
+function IntakeSummary({ role, answers, onEdit, onEditAnswers }: {
+  role: Role
+  answers: Answers
+  onEdit: (index: number) => void
+  onEditAnswers: () => void
+}) {
+  const email = prepareEmail(role, answers)
+  const cta = role === 'brand' ? 'Book a Campaign' : 'Join as a Creator'
+
+  return <section className="intake-completion" aria-labelledby="intake-summary-title">
+    <div className="intake-completion-heading">
+      <span className="intake-completion-check" aria-hidden="true"><Check size={18} /></span>
+      <div>
+        <h3 className="assistant-question" id="intake-summary-title">{role === 'brand' ? 'Campaign Brief' : 'Creator Details'}</h3>
+        <p>{role === 'brand' ? 'Your campaign brief is ready.' : 'Your creator details are ready.'}</p>
+      </div>
+    </div>
+    <dl className="intake-summary">
+      {chatFlows[role].map((question, index) => <div key={question.id}>
+        <dt>{question.id === 'goal' ? 'Campaign Goal' : question.label}</dt>
+        <dd>
+          {Array.isArray(answers[question.id])
+            ? <ul className="intake-summary-services">{(answers[question.id] as string[]).map(service => <li key={service}>{service}</li>)}</ul>
+            : <span>{displayAnswer(answers[question.id])}</span>}
+          <button type="button" aria-label={`Edit ${question.label}`} onClick={() => onEdit(index)}>Edit</button>
+        </dd>
+      </div>)}
+    </dl>
+    <div className="intake-completion-actions">
+      {email.href
+        ? <a className="assistant-link assistant-link-primary" href={email.href}>{cta}</a>
+        // An unconfirmed recipient must never produce a broken mailto or visitor-facing debug message.
+        : <><button className="assistant-link assistant-link-primary" type="button" disabled>{cta}</button><p className="intake-contact-soon">Contact email coming soon</p></>}
+      <button type="button" className="assistant-back" onClick={onEditAnswers}>Edit Answers</button>
+    </div>
+    <details className="intake-email-preview">
+      <summary>Preview email</summary>
+      <div><p>{email.subject}</p><pre>{email.body}</pre></div>
+    </details>
+  </section>
 }
 
 export function AndromedaChatWidget() {
   const [open, setOpen] = useState(false)
-  const [view, setView] = useState<AssistantView>("home")
-  const [answer, setAnswer] = useState<string | null>(null)
-  const triggerRef = useRef<HTMLButtonElement>(null)
-  const contentRef = useRef<HTMLDivElement>(null)
-
-  const changeView = (nextView: AssistantView) => {
-    setAnswer(null)
-    setView(nextView)
-  }
-
-  const closePanel = () => {
-    setOpen(false)
-    window.requestAnimationFrame(() => triggerRef.current?.focus())
-  }
-
+  const [role, setRole] = useState<Role | null>(null)
+  const [answers, setAnswers] = useState<Answers>({})
+  const [step, setStep] = useState(0)
+  const [editing, setEditing] = useState(false)
+  const trigger = useRef<HTMLButtonElement>(null)
+  const current = useRef<HTMLDivElement>(null)
+  const questions = role ? chatFlows[role] : []
+  const question = questions[step]
+  const complete = role && step === questions.length
+  const close = () => { setOpen(false); trigger.current?.focus() }
+  const chooseRole = (next: Role) => { setRole(next); setAnswers({}); setStep(0); setEditing(false) }
+  const restart = () => { setRole(null); setAnswers({}); setStep(0); setEditing(false) }
   useEffect(() => {
     if (!open) return
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") closePanel()
-    }
-    document.addEventListener("keydown", handleKeyDown)
-    return () => document.removeEventListener("keydown", handleKeyDown)
+    const keydown = (event: KeyboardEvent) => { if (event.key === 'Escape') { setOpen(false); trigger.current?.focus() } }
+    document.addEventListener('keydown', keydown)
+    return () => document.removeEventListener('keydown', keydown)
   }, [open])
-
   useEffect(() => {
-    if (!open) return
-    const timer = window.setTimeout(() => contentRef.current?.focus(), 80)
-    return () => window.clearTimeout(timer)
-  }, [open, view])
-
-  const faqIndex = view.startsWith("faq-") ? Number(view.replace("faq-", "")) : -1
-  const activeAnswers = view === "brand" ? brandAnswers : creatorAnswers
-
-  return (
-    <aside className={`andromeda-assistant${open ? " assistant-open" : ""}`} aria-label="Andromeda Assistant">
-      <section className="assistant-panel" id="andromeda-assistant-panel" role="dialog" aria-modal="false" aria-labelledby="andromeda-assistant-title" aria-hidden={!open}>
-        <header className="assistant-header">
-          <span className="assistant-logo"><Image src={logo} alt="Andromeda" width={1280} height={1280} sizes="110px" /></span>
-          <h2 id="andromeda-assistant-title">Andromeda Assistant</h2>
-          <button className="assistant-close" type="button" aria-label="Close Andromeda Assistant" onClick={closePanel}><span /><span /></button>
-        </header>
-
-        <div className="assistant-content" key={view} ref={contentRef} tabIndex={-1} data-view={view} aria-live="polite">
-          {view === "home" && <>
-            <p className="assistant-message">Hi! How can I help?</p>
-            <div className="assistant-menu assistant-menu-grid">{assistantHomeOptions.map((option) => <button key={option.label} type="button" onClick={() => changeView(option.view)}>{option.label}</button>)}</div>
-          </>}
-
-          {(view === "brand" || view === "creator") && <>
-            <p className="assistant-eyebrow">{view === "brand" ? "I'm a Brand" : "I'm a Creator"}</p>
-            <div className="assistant-menu">{activeAnswers.map((item) => <button className={answer === item.answer ? "selected" : ""} key={item.label} type="button" onClick={() => setAnswer(item.answer)}>{item.label}</button>)}</div>
-            {answer && <p className="assistant-answer">{answer}</p>}
-            <ScrollLink href="#contact" onNavigate={closePanel} primary>{view === "brand" ? "Book a Campaign" : "Join as a Creator"}</ScrollLink>
-            <BackButton onClick={() => changeView("home")} />
-          </>}
-
-          {view === "services" && <>
-            <p className="assistant-eyebrow">Services</p>
-            <ul className="assistant-list compact">{assistantServices.map((service) => <li key={service}>{service}</li>)}</ul>
-            <ScrollLink href="#services" onNavigate={closePanel} primary>View Services</ScrollLink>
-            <BackButton onClick={() => changeView("home")} />
-          </>}
-
-          {view === "process" && <>
-            <p className="assistant-eyebrow">How It Works</p>
-            <div className="assistant-menu"><button type="button" onClick={() => changeView("process-brand")}>For Brands</button><button type="button" onClick={() => changeView("process-creator")}>For Creators</button></div>
-            <BackButton onClick={() => changeView("home")} />
-          </>}
-
-          {(view === "process-brand" || view === "process-creator") && <>
-            <p className="assistant-eyebrow">How It Works — {view === "process-brand" ? "For Brands" : "For Creators"}</p>
-            <ol className="assistant-list numbered">{assistantProcesses[view === "process-brand" ? "brand" : "creator"].map((step, index) => <li key={step}><span>{index + 1}</span>{step}</li>)}</ol>
-            <ScrollLink href="#how-it-works" onNavigate={closePanel}>View How It Works</ScrollLink>
-            <BackButton onClick={() => changeView("process")} />
-          </>}
-
-          {view === "faq" && <>
-            <p className="assistant-eyebrow">FAQ</p>
-            <div className="assistant-menu faq-menu">{assistantFaqs.map((item, index) => <button key={item.question} type="button" onClick={() => changeView(`faq-${index}`)}>{item.question}</button>)}</div>
-            <ScrollLink href="#faq" onNavigate={closePanel}>View FAQ</ScrollLink>
-            <BackButton onClick={() => changeView("home")} />
-          </>}
-
-          {faqIndex >= 0 && assistantFaqs[faqIndex] && <>
-            <p className="assistant-eyebrow">FAQ</p>
-            <h3 className="assistant-question">{assistantFaqs[faqIndex].question}</h3>
-            <p className="assistant-answer visible">{assistantFaqs[faqIndex].answer}</p>
-            <BackButton onClick={() => changeView("faq")} />
-          </>}
-
-          {view === "contact" && <>
-            <p className="assistant-eyebrow">Contact Us</p>
-            <h3 className="assistant-contact-title">Let's build something together.</h3>
-            <div className="assistant-contact-links"><ScrollLink href="#contact" onNavigate={closePanel} primary>Book a Campaign</ScrollLink><ScrollLink href="#contact" onNavigate={closePanel}>Join as a Creator</ScrollLink><ScrollLink href="#contact" onNavigate={closePanel}>Go to Contact</ScrollLink></div>
-            <BackButton onClick={() => changeView("home")} />
-          </>}
+    if (open) { current.current?.focus({ preventScroll: true }); current.current?.scrollIntoView({ block: 'nearest', behavior: 'instant' }) }
+  }, [open, step, role, editing])
+  return <aside className={`andromeda-assistant${open ? ' assistant-open' : ''}`} aria-label="Andromeda Assistant">
+    <section className="assistant-panel" id="andromeda-assistant-panel" role="dialog" aria-modal="false" aria-labelledby="andromeda-assistant-title" inert={!open}>
+      <header className="assistant-header"><span className="assistant-logo"><Image src="/andromeda-logo.png" alt="Andromeda" width={1280} height={1280} sizes="110px" /></span><h2 id="andromeda-assistant-title">Andromeda Assistant</h2><button className="assistant-close" type="button" aria-label="Close Andromeda Assistant" onClick={close}><span /><span /></button></header>
+      <div className="assistant-content">
+        <p className="assistant-message">Hi! I’m the Andromeda Assistant.</p>
+        <p className="assistant-message">Are you a Brand or a Creator?</p>
+        {role && <p className="assistant-message user-message">{role === 'brand' ? 'I’m a Brand' : 'I’m a Creator'}</p>}
+        {questions.slice(0, step).map((q, index) => <div key={q.id}><p className="assistant-message">{q.question}</p><button className="assistant-message user-message" type="button" aria-label={`Edit ${q.label}`} onClick={() => { setStep(index); setEditing(true) }}>{displayAnswer(answers[q.id])}<small>Edit</small></button></div>)}
+        <div ref={current} tabIndex={-1} className="intake-current" aria-live="polite">
+          {!role && <div className="assistant-menu"><button onClick={() => chooseRole('brand')}>I’m a Brand</button><button onClick={() => chooseRole('creator')}>I’m a Creator</button></div>}
+          {role && question && <><p className="assistant-eyebrow">Step {step + 1} of {questions.length}</p><progress max={questions.length} value={step + 1} aria-label="Intake progress" /><p className="assistant-message">{question.question}</p><AnswerInput key={`${role}-${step}`} question={question} value={answers[question.id]} onAnswer={value => {
+            const updated = { ...answers, [question.id]: value }; setAnswers(updated)
+            if (editing && questions.every(q => updated[q.id] !== undefined)) { setStep(questions.length); setEditing(false) } else setStep(step + 1)
+          }} /></>}
+          {complete && role && <IntakeSummary role={role} answers={answers}
+            onEdit={index => { setStep(index); setEditing(true) }}
+            onEditAnswers={() => { setStep(0); setEditing(true) }}
+          />}
         </div>
-      </section>
-
-      <button ref={triggerRef} className="assistant-trigger" type="button" aria-label={open ? "Close Andromeda Assistant" : "Open Andromeda Assistant"} aria-expanded={open} aria-controls="andromeda-assistant-panel" onClick={() => setOpen((isOpen) => !isOpen)}>
-        <span className="assistant-trigger-bubble" aria-hidden="true"><i /><i /><i /></span>
-        <span className="assistant-trigger-x" aria-hidden="true"><i /><i /></span>
-      </button>
-    </aside>
-  )
+      </div>
+      {role && <footer className="intake-controls"><button type="button" onClick={() => { if (step > 0) { setStep(step - 1); setEditing(false) } else setRole(null) }}>← Back</button><button type="button" onClick={restart}>Restart</button></footer>}
+    </section>
+    <button ref={trigger} className="assistant-trigger" type="button" aria-label={open ? 'Close Andromeda Assistant' : 'Open Andromeda Assistant'} aria-expanded={open} aria-controls="andromeda-assistant-panel" onClick={() => open ? close() : setOpen(true)}><span className="assistant-trigger-bubble" aria-hidden="true"><i /><i /><i /></span><span className="assistant-trigger-x" aria-hidden="true"><i /><i /></span></button>
+  </aside>
 }
