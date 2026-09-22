@@ -97,8 +97,8 @@ function Brand({ priority = false }: { priority?: boolean }) {
   return <span className="brand-mark"><Image src={logo} alt="Andromeda" width={1280} height={1280} priority={priority} sizes="160px" /></span>
 }
 
-function SectionKicker({ number, children }: { number: string; children: React.ReactNode }) {
-  return <div className="section-kicker"><span>{number}</span><span>{children}</span><span className="kicker-line" aria-hidden="true" /></div>
+function SectionKicker({ children }: { children: React.ReactNode }) {
+  return <div className="section-kicker"><span>{children}</span><span className="kicker-line" aria-hidden="true" /></div>
 }
 
 function BenefitList({ items }: { items: string[] }) {
@@ -165,7 +165,7 @@ export default function Home() {
       </section>
 
       <section className="intro-section section-pad" id="introduction">
-        <SectionKicker number="01">Introduction</SectionKicker>
+        <SectionKicker>Introduction</SectionKicker>
         <div className="intro-grid">
           <h2>We connect brands with the <em>right creators.</em></h2>
           <div className="intro-body"><span className="statement-rule" aria-hidden="true" /><p>Andromeda is an influencer marketing agency and matchmaking platform built for the Arab world. We connect brands with the right creators and manage everything in between — sourcing, contracts, campaign execution, and reporting — so brands can focus on growing, and creators can focus on creating.</p><a className="text-link" href="#about">Learn more about us <ArrowUpRight size={16} /></a></div>
@@ -174,7 +174,7 @@ export default function Home() {
       </section>
 
       <section className="about-section section-pad" id="about">
-        <SectionKicker number="02">About Us</SectionKicker>
+        <SectionKicker>About Us</SectionKicker>
         <article className="about-lead"><h2>Who We Are</h2><div className="long-copy"><p>Andromeda is an influencer marketing agency and matchmaking platform built for the Arab world, starting in Sudan and extending across the region. We exist to close the gap between two groups who need each other but rarely find each other easily: brands looking for real audiences, and creators (KOLs) looking for real opportunities.</p><p>We manage the entire relationship between a brand and a creator — from finding the right match, to running the campaign, to delivering a clear report that shows what happened and why it mattered. One KOL or a full multi-creator campaign, we run it end-to-end so brands can focus on their business, and creators can focus on their craft.</p><p>Our name reflects what we believe influencer marketing should feel like: a galaxy of voices, connected with intention — not scattered, not random, but guided toward the right audience, at the right moment.</p><p><strong>Our team:</strong> Andromeda is built and run by a team of four — Mahgoub, Khadiga, Abdala, and Aya. We are part of the generation we serve: young, hands-on, and genuinely passionate about building a fairer, more professional way for Arab brands and creators to work together.</p></div></article>
 
         <article className="about-block gap-block"><div className="subsection-heading"><h3>The Gap We Close</h3></div><p className="wide-copy">Most influencer marketing in the region is built for big companies with big budgets. Small and growing brands — the café opening its second branch, the skincare line just finding its audience, the local fashion label going online — are usually left to figure it out alone: messaging creators one by one, with no strategy, no contract, and no way to measure what actually worked.</p><div className="comparison"><div className="comparison-head"><span>Without Andromeda</span><span>With Andromeda</span></div>{gapComparison.map(([without, withAndromeda]) => <div className="comparison-row" key={without}><p>{without}</p><p>{withAndromeda}</p></div>)}</div></article>
@@ -183,7 +183,7 @@ export default function Home() {
       </section>
 
       <section className="audience-section section-pad" id="audiences">
-        <SectionKicker number="03">For Brands & Creators</SectionKicker>
+        <SectionKicker>For Brands & Creators</SectionKicker>
         <div className="audience-heading"><h2>Built for both sides of the <em>creator economy.</em></h2><p>Andromeda connects brands with the right creators and gives creators access to real, professional opportunities.</p></div>
         <div className="static-paths">
           <article className="path-panel path-brand" tabIndex={0} id="for-brands"><p className="eyebrow">For Brands</p><h3>Get discovered by the right audience</h3><p className="path-subhead">Grow your brand with creators your customers already trust.</p><h4>What you get</h4><BenefitList items={brandBenefits} /><p className="best-for"><strong>Best for:</strong> cafés & restaurants, beauty & fashion brands, e-commerce, real estate, and lifestyle businesses ready to grow with real audiences.</p><a className="button button-dark" href="#contact" onClick={() => selectContactRole("Brand")}>Book a Campaign <ArrowUpRight size={16} /></a></article>
@@ -192,7 +192,7 @@ export default function Home() {
       </section>
 
       <section className="process-section section-pad" id="how-it-works">
-        <SectionKicker number="04">How It Works</SectionKicker>
+        <SectionKicker>How It Works</SectionKicker>
         <div className="dual-process">
           <article><h2>How It Works — <em>For Brands</em></h2><ol>{brandProcess.map((step, index) => <li key={step}><span>{String(index + 1).padStart(2, "0")}</span><p>{step}</p></li>)}</ol></article>
           <article><h2>How It Works — <em>For Creators</em></h2><ol>{creatorProcess.map((step, index) => <li key={step}><span>{String(index + 1).padStart(2, "0")}</span><p>{step}</p></li>)}</ol></article>
@@ -200,7 +200,7 @@ export default function Home() {
       </section>
 
       <section className="faq-section section-pad" id="faq">
-        <SectionKicker number="05">Frequently Asked Questions</SectionKicker>
+        <SectionKicker>Frequently Asked Questions</SectionKicker>
         <div className="faq-layout"><h2>Frequently Asked <em>Questions</em></h2><div className="faq-list">{faqs.map(([question, answer], index) => <details key={question} open={index === 0}><summary><span>{question}</span><ChevronDown size={20} aria-hidden="true" /></summary><p>{answer}</p></details>)}</div></div>
       </section>
 
@@ -222,7 +222,7 @@ export default function Home() {
 
       <section className="contact-section section-pad" id="contact">
         <div className="contact-orbits" aria-hidden="true"><span /><span /><span /></div>
-        <SectionKicker number="07">Contact Us</SectionKicker>
+        <SectionKicker >Contact Us</SectionKicker>
         <div className="contact-layout">
           <div className="contact-copy"><h2>Let's build <em>something together.</em></h2><p>Whether you are a brand ready to grow or a creator ready to partner with us, we welcome the opportunity to hear from you. Please feel free to reach out to us at your convenience.</p>{/* Official email and social links are intentionally hidden until confirmed. */}</div>
           <form className="contact-form" onSubmit={handleSubmit}>
