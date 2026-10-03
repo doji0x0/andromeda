@@ -5,6 +5,7 @@ import { FormEvent, useEffect, useRef, useState } from "react"
 import { ArrowDown, ArrowUpRight, ChartNoAxesCombined, Check, ChevronDown, Handshake, Images, Menu, Mic2, Radio, Search, Share2, Target, X, type LucideIcon } from "lucide-react"
 import { PageInteractions } from "@/components/page-interactions"
 import { AndromedaChatWidget } from "@/components/andromeda-chat-widget"
+import { SectionWrapper } from "@/components/section-wrapper"
 
 const logo = "/andromeda-logo.png"
 
@@ -149,7 +150,7 @@ export default function Home() {
         {navItems.map(([label, href]) => <a key={href} href={href} onClick={() => setMenuOpen(false)}>{label}</a>)}
       </nav>
 
-      <section className="hero-editorial" id="home">
+      <SectionWrapper className="hero-editorial" id="home" tone="deep">
         <div className="hero-grid" aria-hidden="true" />
         <div className="hero-visual" aria-hidden="true"><span className="orbit orbit-one" /><span className="orbit orbit-two" /><span className="orbit orbit-three" /><span className="orbit-core" /><span className="orbit-node node-one" /><span className="orbit-node node-two" /><span className="orbit-node node-three" /></div>
         <div className="hero-content">
@@ -162,49 +163,49 @@ export default function Home() {
           </div>
         </div>
         <a className="scroll-cue" href="#introduction">Scroll to explore <ArrowDown size={15} /></a>
-      </section>
+      </SectionWrapper>
 
-      <section className="intro-section section-pad" id="introduction">
+      <SectionWrapper className="intro-section section-pad" id="introduction" tone="light" edge="top" topEdgeTone="deep">
         <SectionKicker>Introduction</SectionKicker>
         <div className="intro-grid">
           <h2>We connect brands with the <em>right creators.</em></h2>
           <div className="intro-body"><span className="statement-rule" aria-hidden="true" /><p>Andromeda is an influencer marketing agency and matchmaking platform built for the Arab world. We connect brands with the right creators and manage everything in between — sourcing, contracts, campaign execution, and reporting — so brands can focus on growing, and creators can focus on creating.</p><a className="text-link" href="#about">Learn more about us <ArrowUpRight size={16} /></a></div>
         </div>
         <div className="categories-block"><p>We work across categories where creator content genuinely drives results:</p><div className="category-grid">{categories.map((category, index) => <div className="category-item" key={category}><span>{String(index + 1).padStart(2, "0")}</span><strong>{category}</strong></div>)}</div></div>
-      </section>
+      </SectionWrapper>
 
-      <section className="about-section section-pad" id="about">
+      <SectionWrapper className="about-section section-pad" id="about" tone="navy" edge="both" topEdgeTone="light" bottomEdgeTone="deep" edgeStyle="cut">
         <SectionKicker>About Us</SectionKicker>
         <article className="about-lead"><h2>Who We Are</h2><div className="long-copy"><p>Andromeda is an influencer marketing agency and matchmaking platform built for the Arab world, starting in Sudan and extending across the region. We exist to close the gap between two groups who need each other but rarely find each other easily: brands looking for real audiences, and creators (KOLs) looking for real opportunities.</p><p>We manage the entire relationship between a brand and a creator — from finding the right match, to running the campaign, to delivering a clear report that shows what happened and why it mattered. One KOL or a full multi-creator campaign, we run it end-to-end so brands can focus on their business, and creators can focus on their craft.</p><p>Our name reflects what we believe influencer marketing should feel like: a galaxy of voices, connected with intention — not scattered, not random, but guided toward the right audience, at the right moment.</p><p><strong>Our team:</strong> Andromeda is built and run by a team of four — Mahgoub, Khadiga, Abdala, and Aya. We are part of the generation we serve: young, hands-on, and genuinely passionate about building a fairer, more professional way for Arab brands and creators to work together.</p></div></article>
 
-        <article className="about-block gap-block"><div className="subsection-heading"><h3>The Gap We Close</h3></div><p className="wide-copy">Most influencer marketing in the region is built for big companies with big budgets. Small and growing brands — the café opening its second branch, the skincare line just finding its audience, the local fashion label going online — are usually left to figure it out alone: messaging creators one by one, with no strategy, no contract, and no way to measure what actually worked.</p><div className="comparison"><div className="comparison-head"><span>Without Andromeda</span><span>With Andromeda</span></div>{gapComparison.map(([without, withAndromeda]) => <div className="comparison-row" key={without}><p>{without}</p><p>{withAndromeda}</p></div>)}</div></article>
+        <SectionWrapper as="article" className="about-block gap-block" tone="light" edge="both" topEdgeTone="navy" bottomEdgeTone="navy" nested><div className="subsection-heading"><h3>The Gap We Close</h3></div><p className="wide-copy">Most influencer marketing in the region is built for big companies with big budgets. Small and growing brands — the café opening its second branch, the skincare line just finding its audience, the local fashion label going online — are usually left to figure it out alone: messaging creators one by one, with no strategy, no contract, and no way to measure what actually worked.</p><div className="comparison"><div className="comparison-head"><span>Without Andromeda</span><span>With Andromeda</span></div>{gapComparison.map(([without, withAndromeda]) => <div className="comparison-row" key={without}><p>{without}</p><p>{withAndromeda}</p></div>)}</div></SectionWrapper>
 
         <article className="why-block"><h3>Why Andromeda</h3><BenefitList items={whyAndromeda} /></article>
-      </section>
+      </SectionWrapper>
 
-      <section className="audience-section section-pad" id="audiences">
+      <SectionWrapper className="audience-section section-pad" id="audiences" tone="deep" edge="bottom" bottomEdgeTone="navy">
         <SectionKicker>For Brands & Creators</SectionKicker>
         <div className="audience-heading"><h2>Built for both sides of the <em>creator economy.</em></h2><p>Andromeda connects brands with the right creators and gives creators access to real, professional opportunities.</p></div>
         <div className="static-paths">
           <article className="path-panel path-brand" tabIndex={0} id="for-brands"><p className="eyebrow">For Brands</p><h3>Get discovered by the right audience</h3><p className="path-subhead">Grow your brand with creators your customers already trust.</p><h4>What you get</h4><BenefitList items={brandBenefits} /><p className="best-for"><strong>Best for:</strong> cafés & restaurants, beauty & fashion brands, e-commerce, real estate, and lifestyle businesses ready to grow with real audiences.</p><a className="button button-dark" href="#contact" onClick={() => selectContactRole("Brand")}>Book a Campaign <ArrowUpRight size={16} /></a></article>
           <article className="path-panel path-creator" tabIndex={0} id="for-creators"><p className="eyebrow">For Creators</p><h3>Turn your content into real income</h3><p className="path-subhead">Join a growing network of KOLs working with real, paying brands.</p><h4>What you get</h4><BenefitList items={creatorBenefits} /><p className="best-for"><strong>Best for:</strong> creators of any size, on Instagram, TikTok, or Snapchat, who want consistent, professional brand partnerships.</p><a className="button button-blue" href="#contact" onClick={() => selectContactRole("Creator")}>Join as a Creator <ArrowUpRight size={16} /></a></article>
         </div>
-      </section>
+      </SectionWrapper>
 
-      <section className="process-section section-pad" id="how-it-works">
+      <SectionWrapper className="process-section section-pad" id="how-it-works" tone="navy" edge="bottom" bottomEdgeTone="light" edgeStyle="cut">
         <SectionKicker>How It Works</SectionKicker>
         <div className="dual-process">
           <article><h2>How It Works — <em>For Brands</em></h2><ol>{brandProcess.map((step, index) => <li key={step}><span>{String(index + 1).padStart(2, "0")}</span><p>{step}</p></li>)}</ol></article>
           <article><h2>How It Works — <em>For Creators</em></h2><ol>{creatorProcess.map((step, index) => <li key={step}><span>{String(index + 1).padStart(2, "0")}</span><p>{step}</p></li>)}</ol></article>
         </div>
-      </section>
+      </SectionWrapper>
 
-      <section className="faq-section section-pad" id="faq">
+      <SectionWrapper className="faq-section section-pad" id="faq" tone="light" edge="bottom" bottomEdgeTone="deep">
         <SectionKicker>Frequently Asked Questions</SectionKicker>
         <div className="faq-layout"><h2>Frequently Asked <em>Questions</em></h2><div className="faq-list">{faqs.map(([question, answer], index) => <details key={question} open={index === 0}><summary><span>{question}</span><ChevronDown size={20} aria-hidden="true" /></summary><p>{answer}</p></details>)}</div></div>
-      </section>
+      </SectionWrapper>
 
-      <section className="services-section section-pad" id="services">
+      <SectionWrapper className="services-section section-pad" id="services" tone="deep" edge="bottom" bottomEdgeTone="white" edgeStyle="cut">
         <p className="services-kicker">Services</p>
         <div className="services-heading"><h2>Our <em>Services</em></h2><p>Andromeda provides a complete suite of influencer marketing services, allowing brands to partner with us for a single requirement or for the full scope of a campaign.</p></div>
         <div className="service-list">{services.map(([title, description, Icon]) => {
@@ -216,11 +217,11 @@ export default function Home() {
           </button>
         })}</div>
         <div className={`service-process${processVisible ? " process-visible" : ""}`} ref={processRef}><p className="eyebrow">Our Process</p><ol className="process-timeline">{serviceProcess.map(([number, title, description]) => <li className="process-step" key={number}><span className="process-node">{number}</span><div className="process-copy"><h4>{title}</h4><p>{description}</p></div></li>)}</ol></div>
-      </section>
+      </SectionWrapper>
 
-      <section className="closing-banner"><h2>Ready to grow with audiences that already trust the voices talking to them?</h2><div><a className="button button-dark" href="#contact" onClick={() => selectContactRole("Brand")}>Book a Campaign <ArrowUpRight size={16} /></a><a className="button button-light-outline" href="#contact" onClick={() => selectContactRole("Creator")}>Join as a Creator <ArrowUpRight size={16} /></a></div></section>
+      <SectionWrapper className="closing-banner" tone="white" edge="bottom" bottomEdgeTone="navy"><h2>Ready to grow with audiences that already trust the voices talking to them?</h2><div><a className="button button-dark" href="#contact" onClick={() => selectContactRole("Brand")}>Book a Campaign <ArrowUpRight size={16} /></a><a className="button button-light-outline" href="#contact" onClick={() => selectContactRole("Creator")}>Join as a Creator <ArrowUpRight size={16} /></a></div></SectionWrapper>
 
-      <section className="contact-section section-pad" id="contact">
+      <SectionWrapper className="contact-section section-pad" id="contact" tone="navy" edge="bottom" bottomEdgeTone="deep" edgeStyle="cut">
         <div className="contact-orbits" aria-hidden="true"><span /><span /><span /></div>
         <SectionKicker >Contact Us</SectionKicker>
         <div className="contact-layout">
@@ -234,7 +235,7 @@ export default function Home() {
             {submitted && <p className="confirmation" role="status">Thank you for reaching out. A member of the Andromeda team will be in touch with you shortly.</p>}
           </form>
         </div>
-      </section>
+      </SectionWrapper>
 
       <footer className="site-footer">
         <div className="footer-brand"><a className="brand" href="#home" aria-label="Back to home"><Brand /></a><p>Connecting Brands with Creators Across the Arab World</p></div>
