@@ -135,13 +135,13 @@ h1,h2,h3,h4,p { text-wrap:pretty; }
 .service-row p { transition:translate .25s ease,color .25s ease; }
 .service-row:hover,.service-row:focus-visible { translate:0 -3px; border-color:rgb(var(--blue-rgb) / .65); background:rgb(var(--blue-rgb) / .065); }
 .service-row:hover p,.service-row:focus-visible p { translate:4px 0; color:var(--white); }
-.dual-process ol { position:relative; }
+.dual-process ol { position:relative; isolation:isolate; }
 .dual-process ol::before { content:''; position:absolute; z-index:0; top:25px; bottom:25px; left:13px; width:1px; background:linear-gradient(var(--blue),rgb(var(--blue-rgb) / .1)); }
-.dual-process li { position:relative; }
+.dual-process li { position:relative; z-index:1; }
 .dual-process>article { --step-circle-background:var(--navy); }
 .dual-process>article+article { --step-circle-background:var(--navy-deep); }
-.dual-process li span { z-index:2; width:28px; height:28px; display:grid; place-items:center; border-radius:50%; background-color:var(--step-circle-background); border:1px solid var(--line); box-shadow:0 0 0 4px var(--step-circle-background); opacity:1; isolation:isolate; transition:background-color .3s,box-shadow .3s; }
-.dual-process li.revealed span { background-color:var(--medium); box-shadow:0 0 0 4px var(--step-circle-background),0 0 0 7px rgb(var(--blue-rgb) / .08); }
+.dual-process li span { z-index:2; width:28px; height:28px; display:grid; place-items:center; border-radius:50%; color:var(--navy); background-color:var(--blue); border:1px solid var(--blue); box-shadow:0 0 0 5px var(--step-circle-background),0 0 0 7px rgb(var(--blue-rgb) / .16); opacity:1; isolation:isolate; transition:box-shadow .3s; }
+.dual-process li.revealed span { color:var(--navy); background-color:var(--blue); box-shadow:0 0 0 5px var(--step-circle-background),0 0 0 8px rgb(var(--blue-rgb) / .22); }
 .faq-list details { interpolate-size:allow-keywords; }
 .faq-list details::details-content { height:0; opacity:0; overflow:clip; transition:height .25s ease,opacity .25s ease,content-visibility .25s allow-discrete; }
 .faq-list details[open]::details-content { height:auto; opacity:1; }
