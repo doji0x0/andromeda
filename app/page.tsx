@@ -2,7 +2,7 @@
 
 import Image from "next/image"
 import { FormEvent, useEffect, useRef, useState } from "react"
-import { ArrowDown, ArrowUpRight, ChartNoAxesCombined, Check, ChevronDown, FileSignature, Images, Megaphone, Menu, Mic2, Radio, Target, UserSearch, X, type LucideIcon } from "lucide-react"
+import { ArrowDown, ArrowUpRight, BadgeCheck, Building2, ChartNoAxesCombined, Check, ChevronDown, FileCheck2, FileSignature, Globe2, Images, Megaphone, Menu, Mic2, Radio, Target, UserSearch, UsersRound, X, type LucideIcon } from "lucide-react"
 import { PageInteractions } from "@/components/page-interactions"
 import { AndromedaChatWidget } from "@/components/andromeda-chat-widget"
 
@@ -21,29 +21,31 @@ const categories = ["Food & Beverage", "Beauty & Personal Care", "Fashion & Reta
 
 const gapComparison = [
   ["Messaging creators one by one, hoping for a reply", "A shortlist of vetted, relevant creators, matched for you"],
-  ["No contract — payment and deliverables left to trust", "One clear contract covering everyone involved"],
+  ["No contract payment and deliverables left to trust", "One clear contract covering everyone involved"],
   ["No way to compare results across creators", "A single performance report comparing every creator"],
   ["Hours spent managing instead of growing the business", "One point of contact, one price, campaign fully managed"],
 ]
 
 const whyAndromeda = [
   "One partner, not ten creators to manage yourself",
-  "Real vetting — matched by audience and content quality, not just follower count",
+  "Real vetting matched by audience and content quality, not just follower count",
   "Clear, fair contracts for every campaign, protecting brand and creator alike",
   "Data-backed reporting instead of vanity metrics",
   "Built for the Arab world's creator economy, by a team that belongs to it",
 ]
 
+const whyIcons: LucideIcon[] = [UsersRound, BadgeCheck, FileCheck2, ChartNoAxesCombined, Globe2]
+
 const brandBenefits = [
-  "A shortlist of vetted, relevant KOLs — matched to your brand and budget",
-  "A managed campaign, from briefing to publishing — no chasing creators yourself",
+  "A shortlist of vetted, relevant KOLs  matched to your brand and budget",
+  "A managed campaign, from briefing to publishing no chasing creators yourself",
   "A full suite of services: creator sourcing, campaign management, livestreaming, hosting, UGC, and social media management",
   "A full performance report at the end of every campaign",
   "One point of contact, one contract, one clear price",
 ]
 
 const creatorBenefits = [
-  "Free onboarding — no cost to join the Andromeda creator network",
+  "Free onboarding no cost to join the Andromeda creator network",
   "Paid opportunities matched to your niche and audience",
   "Fair, upfront terms with every brand collaboration",
   "Support with briefs, content direction, and timelines",
@@ -54,12 +56,12 @@ const brandProcess = [
   "Tell us about your brand through a short form",
   "We shortlist vetted creators matched to your goals, category, and budget",
   "You approve the match, and we handle the contract with the creator(s)",
-  "We manage the full campaign — briefing, content direction, publishing",
+  "We manage the full campaign  briefing, content direction, publishing",
   "You receive a full performance report at the end of the campaign",
 ]
 
 const creatorProcess = [
-  "Join the network — free, and takes just a few minutes",
+  "Join the network free, and takes just a few minutes",
   "Tell us your niche, platform, and audience",
   "We match you with paying brand campaigns that genuinely fit your content",
   "We support you with the brief, content direction, and timeline",
@@ -67,22 +69,22 @@ const creatorProcess = [
 ]
 
 const faqs = [
-  ["Is there a cost to join as a creator?", "No — onboarding to the Andromeda creator network is completely free."],
-  ["How are creators vetted?", "We look beyond follower count — matching by audience quality, content style, engagement, and category fit for each specific brand."],
+  ["Is there a cost to join as a creator?", "No, onboarding to the Andromeda creator network is completely free."],
+  ["How are creators vetted?", "We look beyond follower count matching by audience quality, content style, engagement, and category fit for each specific brand."],
   ["What if I don't have a large following yet?", "We work with creators of any size. What matters most is a real, engaged audience in a relevant niche."],
-  ["How long does a typical campaign take?", "It depends on scope — a single-post campaign can be ready in days, while a fully managed multi-creator campaign is planned over a few weeks. We'll confirm exact timelines during the discovery call."],
-  ["Do brands and creators deal with each other directly?", "No — Andromeda manages the relationship end-to-end, including the contract, briefing, and payment, so neither side has to chase the other."],
+  ["How long does a typical campaign take?", "It depends on scope a single-post campaign can be ready in days, while a fully managed multi-creator campaign is planned over a few weeks. We'll confirm exact timelines during the discovery call."],
+  ["Do brands and creators deal with each other directly?", "No, Andromeda manages the relationship end-to-end, including the contract, briefing, and payment, so neither side has to chase the other."],
 ]
 
 const services: [string, string, LucideIcon][] = [
-  ["Creator (KOL) Sourcing & Management", "Identification, vetting, and management of the right creators for each brand — matched by audience, content style, engagement quality, and category, not follower count alone.", UserSearch],
+  ["Creator (KOL) Sourcing & Management", "Identification, vetting, and management of the right creators for each brand matched by audience, content style, engagement quality, and category, not follower count alone.", UserSearch],
   ["Campaign Management", "End-to-end planning and execution of influencer campaigns, from briefing and content direction through to publishing, so brands are never required to manage creators directly.", Target],
   ["Livestream Management", "Coordination and oversight of creator-led livestream content, from planning through to execution, as part of a brand's wider campaign.", Radio],
-  ["Event & Campaign Hosting", "Management of hosting requirements for brand activations and campaign-related events, ensuring creators and brand representatives are aligned and well-prepared.", Mic2],
-  ["UGC (User-Generated Content)", "Production and coordination of authentic, creator-made content for brands to use across their own marketing channels.", Images],
+  ["Event & Campaign Hosting", "Management of hosting requirements for brand activations and campaign related events, ensuring creators and brand representatives are aligned and well-prepared.", Mic2],
+  ["UGC (User-Generated Content)", "Production and coordination of authentic, creator made content for brands to use across their own marketing channels.", Images],
   ["Social Media Management", "Ongoing management of a brand's social media presence, ensuring consistency between creator campaigns and the brand's own channels.", Megaphone],
   ["Contracts & Payments", "A clear agreement between brand, creator, and Andromeda for every engagement, covering deliverables, timelines, and payment, so both sides are protected from the outset.", FileSignature],
-  ["Reporting & Insights", "A comprehensive report and comparative analysis at the close of every campaign — covering reach, engagement, and performance — providing brands with a clear, measurable view of results.", ChartNoAxesCombined],
+  ["Reporting & Insights", "A comprehensive report and comparative analysis at the close of every campaign covering reach, engagement, and performance  providing brands with a clear, measurable view of results.", ChartNoAxesCombined],
 ]
 
 const serviceProcess = [
@@ -171,7 +173,7 @@ export default function Home() {
         </div>
         <div className="hero-content">
           <h1>Connecting Brands with Creators <em>Across the Arab World</em></h1>
-          <p className="hero-lede">Andromeda is the influencer marketing agency and matchmaking platform built for the Arab world — starting in Sudan and growing across the region. We manage the entire relationship between a brand and a creator, end to end.</p>
+          <p className="hero-lede">Andromeda is the influencer marketing agency and matchmaking platform built for the Arab world starting in Sudan and growing across the region. We manage the entire relationship between a brand and a creator, end to end.</p>
           <div className="hero-actions">
             <a className="button button-blue" href="#contact" onClick={() => selectContactRole("Brand")}>Book a Campaign <ArrowUpRight size={16} /></a>
             <a className="button button-outline" href="#contact" onClick={() => selectContactRole("Creator")}>Join as a Creator <ArrowUpRight size={16} /></a>
@@ -183,24 +185,31 @@ export default function Home() {
       <section className="intro-section section-pad" id="introduction">
         <div className="intro-grid">
           <h2>We connect brands with the <em>right creators.</em></h2>
-          <div className="intro-body"><span className="statement-rule" aria-hidden="true" /><p>Andromeda is an influencer marketing agency and matchmaking platform built for the Arab world. We connect brands with the right creators and manage everything in between — sourcing, contracts, campaign execution, and reporting — so brands can focus on growing, and creators can focus on creating.</p><a className="text-link" href="#about">Learn more about us <ArrowUpRight size={16} /></a></div>
+          <div className="intro-body"><span className="statement-rule" aria-hidden="true" /><p>Andromeda is an influencer marketing agency and matchmaking platform built for the Arab world. We connect brands with the right creators and manage everything in between  sourcing, contracts, campaign execution, and reporting so brands can focus on growing, and creators can focus on creating.</p><a className="text-link" href="#about">Learn more about us <ArrowUpRight size={16} /></a></div>
         </div>
         <div className="categories-block"><p>We work across categories where creator content genuinely drives results:</p><div className="category-grid">{categories.map((category, index) => <div className="category-item" key={category}><span>{String(index + 1).padStart(2, "0")}</span><strong>{category}</strong></div>)}</div></div>
       </section>
 
       <section className="about-section section-pad" id="about">
-        <article className="about-lead"><h2>Who We Are</h2><div className="long-copy"><p>Andromeda is an influencer marketing agency and matchmaking platform built for the Arab world, starting in Sudan and extending across the region. We exist to close the gap between two groups who need each other but rarely find each other easily: brands looking for real audiences, and creators (KOLs) looking for real opportunities.</p><p>We manage the entire relationship between a brand and a creator — from finding the right match, to running the campaign, to delivering a clear report that shows what happened and why it mattered. One KOL or a full multi-creator campaign, we run it end-to-end so brands can focus on their business, and creators can focus on their craft.</p><p>Our name reflects what we believe influencer marketing should feel like: a galaxy of voices, connected with intention — not scattered, not random, but guided toward the right audience, at the right moment.</p><p><strong>Our team:</strong> Andromeda is built and run by a team of four — Mahgoub, Khadiga, Abdala, and Aya. We are part of the generation we serve: young, hands-on, and genuinely passionate about building a fairer, more professional way for Arab brands and creators to work together.</p></div></article>
+        <article className="about-lead"><h2>Who We Are</h2><div className="long-copy"><p>Andromeda is an influencer marketing agency and matchmaking platform built for the Arab world, starting in Sudan and extending across the region. We exist to close the gap between two groups who need each other but rarely find each other easily: brands looking for real audiences, and creators (KOLs) looking for real opportunities.</p><p>We manage the entire relationship between a brand and a creator from finding the right match, to running the campaign, to delivering a clear report that shows what happened and why it mattered. One KOL or a full multi-creator campaign, we run it end-to-end so brands can focus on their business, and creators can focus on their craft.</p><p>Our name reflects what we believe influencer marketing should feel like: a galaxy of voices, connected with intention not scattered, not random, but guided toward the right audience, at the right moment.</p><p><strong>Our team:</strong> Andromeda is built and run by a team of four Mahgoub, Khadiga, Abdala, and Aya. We are part of the generation we serve: young, hands-on, and genuinely passionate about building a fairer, more professional way for Arab brands and creators to work together.</p></div></article>
 
-        <article className="about-block gap-block"><div className="subsection-heading"><h3>The Gap We Close</h3></div><p className="wide-copy">Most influencer marketing in the region is built for big companies with big budgets. Small and growing brands — the café opening its second branch, the skincare line just finding its audience, the local fashion label going online — are usually left to figure it out alone: messaging creators one by one, with no strategy, no contract, and no way to measure what actually worked.</p><div className="comparison"><div className="comparison-head"><span>Without Andromeda</span><span>With Andromeda</span></div>{gapComparison.map(([without, withAndromeda]) => <div className="comparison-row" key={without}><p>{without}</p><p>{withAndromeda}</p></div>)}</div></article>
+        <article className="about-block gap-block"><div className="subsection-heading"><h3>The Gap We Close</h3></div><p className="wide-copy">Most influencer marketing in the region is built for big companies with big budgets. Small and growing brands the café opening its second branch, the skincare line just finding its audience, the local fashion label going online are usually left to figure it out alone: messaging creators one by one, with no strategy, no contract, and no way to measure what actually worked.</p><div className="comparison"><div className="comparison-head"><span>Without Andromeda</span><span>With Andromeda</span></div>{gapComparison.map(([without, withAndromeda]) => <div className="comparison-row" key={without}><p>{without}</p><p>{withAndromeda}</p></div>)}</div></article>
 
-        <article className="why-block"><h3>Why Andromeda</h3><BenefitList items={whyAndromeda} /></article>
+        <article className="why-block"><h3>Why <span>Andromeda</span></h3><ul className="why-statements">{whyAndromeda.map((statement, index) => { const Icon = whyIcons[index]; return <li key={statement}><Icon size={22} strokeWidth={1.5} aria-hidden="true" /><span>{statement}</span></li> })}</ul></article>
       </section>
 
       <section className="audience-section section-pad" id="audiences">
         <div className="audience-heading"><h2>Built for both sides of the <em>creator economy.</em></h2><p>Andromeda connects brands with the right creators and gives creators access to real, professional opportunities.</p></div>
-        <div className="static-paths">
-          <article className="path-panel path-brand" tabIndex={0} id="for-brands"><h3>Get discovered by the right audience</h3><p className="path-subhead">Grow your brand with creators your customers already trust.</p><h4>What you get</h4><BenefitList items={brandBenefits} /><p className="best-for"><strong>Best for:</strong> cafés & restaurants, beauty & fashion brands, e-commerce, real estate, and lifestyle businesses ready to grow with real audiences.</p><a className="button button-dark" href="#contact" onClick={() => selectContactRole("Brand")}>Book a Campaign <ArrowUpRight size={16} /></a></article>
-          <article className="path-panel path-creator" tabIndex={0} id="for-creators"><h3>Turn your content into real income</h3><p className="path-subhead">Join a growing network of KOLs working with real, paying brands.</p><h4>What you get</h4><BenefitList items={creatorBenefits} /><p className="best-for"><strong>Best for:</strong> creators of any size, on Instagram, TikTok, or Snapchat, who want consistent, professional brand partnerships.</p><a className="button button-blue" href="#contact" onClick={() => selectContactRole("Creator")}>Join as a Creator <ArrowUpRight size={16} /></a></article>
+        <div className="audience-connection">
+          <a className="connection-endpoint" href="#for-brands"><Building2 size={34} strokeWidth={1.25} aria-hidden="true" /><span>Brands</span></a>
+          <span className="connection-line" aria-hidden="true"><svg viewBox="0 0 100 12" preserveAspectRatio="none"><path d="M1 6H99 M5 2L1 6L5 10 M95 2L99 6L95 10" vectorEffect="non-scaling-stroke" /></svg><i /></span>
+          <span className="connection-hub">Andromeda</span>
+          <span className="connection-line connection-line-outgoing" aria-hidden="true"><svg viewBox="0 0 100 12" preserveAspectRatio="none"><path d="M1 6H99 M5 2L1 6L5 10 M95 2L99 6L95 10" vectorEffect="non-scaling-stroke" /></svg><i /></span>
+          <a className="connection-endpoint" href="#for-creators"><UsersRound size={34} strokeWidth={1.25} aria-hidden="true" /><span>Creators</span></a>
+        </div>
+        <div className="audience-details">
+          <article className="audience-detail" tabIndex={0} id="for-brands"><details><summary><h3>Get discovered by the right audience</h3><ChevronDown size={18} aria-hidden="true" /></summary><p className="path-subhead">Grow your brand with creators your customers already trust.</p><h4>What you get</h4><BenefitList items={brandBenefits} /><p className="best-for"><strong>Best for:</strong> cafés & restaurants, beauty & fashion brands, e-commerce, real estate, and lifestyle businesses ready to grow with real audiences.</p></details><a className="button button-outline" href="#contact" onClick={() => selectContactRole("Brand")}>Book a Campaign <ArrowUpRight size={16} /></a></article>
+          <article className="audience-detail" tabIndex={0} id="for-creators"><details><summary><h3>Turn your content into real income</h3><ChevronDown size={18} aria-hidden="true" /></summary><p className="path-subhead">Join a growing network of KOLs working with real, paying brands.</p><h4>What you get</h4><BenefitList items={creatorBenefits} /><p className="best-for"><strong>Best for:</strong> creators of any size, on Instagram, TikTok, or Snapchat, who want consistent, professional brand partnerships.</p></details><a className="button button-blue" href="#contact" onClick={() => selectContactRole("Creator")}>Join as a Creator <ArrowUpRight size={16} /></a></article>
         </div>
       </section>
 
