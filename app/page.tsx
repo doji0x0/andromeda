@@ -26,15 +26,13 @@ const gapComparison = [
   ["Hours spent managing instead of growing the business", "One point of contact, one price, campaign fully managed"],
 ]
 
-const whyAndromeda = [
-  "One partner, not ten creators to manage yourself",
-  "Real vetting matched by audience and content quality, not just follower count",
-  "Clear, fair contracts for every campaign, protecting brand and creator alike",
-  "Data-backed reporting instead of vanity metrics",
-  "Built for the Arab world's creator economy, by a team that belongs to it",
+const whyAndromeda: [string, string, LucideIcon][] = [
+  ["One Partner", "One dedicated team to manage the relationship, the details, and every moving part of your campaign.", UsersRound],
+  ["Vetted Creators", "Thoughtful matches based on audience, content quality, and genuine fit, beyond follower count.", BadgeCheck],
+  ["Clear Contracts", "Fair, transparent terms and deliverables that protect brands and creators from the start.", FileCheck2],
+  ["Data-Backed Results", "Clear reporting that shows what worked, what mattered, and where to go next.", ChartNoAxesCombined],
+  ["Built for the Arab Creator Economy", "Made by a team that belongs to this region and understands the voices, audiences, and opportunities shaping it.", Globe2],
 ]
-
-const whyIcons: LucideIcon[] = [UsersRound, BadgeCheck, FileCheck2, ChartNoAxesCombined, Globe2]
 
 const brandBenefits = [
   "A shortlist of vetted, relevant KOLs  matched to your brand and budget",
@@ -195,7 +193,21 @@ export default function Home() {
 
         <article className="about-block gap-block"><div className="subsection-heading"><h3>The Gap We Close</h3></div><p className="wide-copy">Most influencer marketing in the region is built for big companies with big budgets. Small and growing brands the café opening its second branch, the skincare line just finding its audience, the local fashion label going online are usually left to figure it out alone: messaging creators one by one, with no strategy, no contract, and no way to measure what actually worked.</p><div className="comparison"><div className="comparison-head"><span>Without Andromeda</span><span>With Andromeda</span></div>{gapComparison.map(([without, withAndromeda]) => <div className="comparison-row" key={without}><p>{without}</p><p>{withAndromeda}</p></div>)}</div></article>
 
-        <article className="why-block"><h3>Why <span>Andromeda</span></h3><ul className="why-statements">{whyAndromeda.map((statement, index) => { const Icon = whyIcons[index]; return <li key={statement}><Icon size={22} strokeWidth={1.5} aria-hidden="true" /><span>{statement}</span></li> })}</ul></article>
+        <article className="why-block" aria-labelledby="why-andromeda-title">
+          <div className="why-intro">
+            <p className="why-eyebrow">The Andromeda difference</p>
+            <h3 id="why-andromeda-title">Why <span>Andromeda</span></h3>
+            <p className="why-subtitle">Creator partnerships shaped with intention, managed with care, and measured by what matters.</p>
+          </div>
+          <div className="why-grid">
+            {whyAndromeda.map(([title, description, Icon], index) => (
+              <div className={`why-card${index === 4 ? " why-card-featured" : ""}`} key={title}>
+                <div className="why-card-top"><span className="why-icon"><Icon size={27} strokeWidth={1.5} aria-hidden="true" /></span><span className="why-number">0{index + 1}</span></div>
+                <div className="why-card-copy"><h4>{title}</h4><p>{description}</p></div>
+              </div>
+            ))}
+          </div>
+        </article>
       </section>
 
       <section className="audience-section section-pad" id="audiences">

@@ -366,32 +366,37 @@ h1,h2,h3,h4,p { text-wrap:pretty; }
   .process-section .dual-process li { gap:14px; }
 }
 
-/* Editorial statements, confined to Why Andromeda. */
-.why-block { grid-template-columns:.6fr 1.4fr; gap:clamp(28px,5vw,64px); padding-block:36px; }
-.why-block h3 { max-width:260px; line-height:1.05; }
-.why-block h3>span { display:block; color:var(--blue); }
-.why-block .why-statements { margin:0; padding:0; list-style:none; }
-.why-block .why-statements li { position:relative; display:grid; grid-template-columns:22px minmax(0,1fr); align-items:start; gap:12px; padding:8px 0; color:var(--light); font-size:clamp(17px,1.45vw,20px); line-height:1.4; }
-.why-block .why-statements li>svg { width:22px; height:22px; margin-top:calc(.7em - 11px); color:var(--blue); }
-.why-block .why-statements li:first-child { padding-top:0; }
-.why-block .why-statements li:last-child { padding-bottom:0; }
-.why-block .why-statements li+li { border-top:1px solid var(--line); }
-.why-block .why-statements li>span { display:block; transition:color .2s ease-out,transform .2s ease-out; }
-.why-block .why-statements li::before { content:''; position:absolute; left:-16px; top:calc(8px + .7em); width:8px; height:1px; background:var(--blue); opacity:0; transform:scaleX(0); transform-origin:left; transition:opacity .2s ease-out,transform .2s ease-out; }
-.why-block .why-statements li:first-child::before { top:.7em; }
-@media (hover:hover) and (pointer:fine) {
-  .why-block .why-statements li:hover>span { color:var(--blue); }
-}
+/* Why Andromeda: an editorial introduction and a restrained feature grid. */
+.why-block { display:block; padding-block:88px 96px; }
+.why-intro { max-width:780px; margin-bottom:42px; }
+.why-eyebrow { margin:0 0 18px; color:var(--blue); font-size:12px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; }
+.why-block h3 { max-width:none; margin:0; font:600 clamp(46px,6vw,78px)/1.02 var(--heading); letter-spacing:-.025em; text-transform:none; }
+.why-block h3>span { display:inline; color:var(--blue); }
+.why-subtitle { max-width:620px; margin:22px 0 0; color:var(--gray); font-size:clamp(17px,1.6vw,20px); line-height:1.55; }
+.why-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+.why-card { display:flex; flex-direction:column; justify-content:space-between; min-height:274px; padding:clamp(27px,3vw,40px); border:1px solid rgb(var(--blue-rgb) / .2); border-radius:16px; background:rgb(var(--blue-rgb) / .035); }
+.why-card-top { display:flex; align-items:start; justify-content:space-between; gap:20px; }
+.why-icon { display:grid; place-items:center; width:54px; height:54px; flex:none; border:1px solid rgb(var(--blue-rgb) / .34); border-radius:14px; color:var(--blue); background:rgb(var(--blue-rgb) / .065); }
+.why-number { color:rgb(var(--gray-rgb) / .64); font:500 14px var(--heading); letter-spacing:.08em; }
+.why-card h4 { margin:24px 0 9px; font:600 clamp(24px,2.35vw,31px)/1.14 var(--heading); text-transform:none; }
+.why-card p { max-width:460px; margin:0; color:var(--gray); font-size:16px; line-height:1.55; }
+.why-card-featured { grid-column:1/-1; min-height:220px; flex-direction:row; align-items:center; gap:48px; }
+.why-card-featured .why-card-top { width:30%; min-width:150px; align-self:stretch; }
+.why-card-featured .why-card-copy { flex:1; }
+.why-card-featured h4 { margin-top:0; }
+.why-card-featured p { max-width:660px; }
 @media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference) {
-  .why-block .why-statements li:hover>span { transform:translateX(4px); }
-  .why-block .why-statements li:hover::before { opacity:1; transform:scaleX(1); }
+  .why-card { transition:border-color .3s ease,background-color .3s ease,translate .3s ease; }
+  .why-card:hover { translate:0 -4px; border-color:rgb(var(--blue-rgb) / .48); background-color:rgb(var(--blue-rgb) / .065); }
 }
 @media (max-width:760px) {
-  .why-block { grid-template-columns:1fr; gap:24px; padding-block:28px; }
-  .why-block h3 { max-width:none; }
-  .why-block h3>span { display:inline; }
-  .why-block .why-statements li { padding-block:10px; font-size:17px; }
-  .why-block .why-statements li:not(:first-child)::before { top:calc(10px + .7em); }
+  .why-block { padding-block:64px 72px; }
+  .why-intro { margin-bottom:32px; }
+  .why-grid { grid-template-columns:1fr; gap:12px; }
+  .why-card { min-height:238px; padding:26px; }
+  .why-card-featured { grid-column:auto; min-height:260px; flex-direction:column; align-items:stretch; gap:28px; }
+  .why-card-featured .why-card-top { width:auto; min-width:0; }
+  .why-card-featured h4 { margin-top:0; }
 }
 
 /* Let the final About article supply its own balanced spacing. */
