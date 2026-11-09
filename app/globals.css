@@ -1,7 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Belleza&family=Oswald:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;500;600;700&display=swap');
 @import 'tailwindcss';
 
-:root { --navy:#071a2f; --navy-deep:#071a2f; --medium:#0d2a47; --blue:#36b9ff; --blue-dark:#0d2a47; --light:#eaf7ff; --white:#ffffff; --gray:#a8b6c5; --navy-rgb:7 26 47; --medium-rgb:13 42 71; --blue-rgb:54 185 255; --gray-rgb:168 182 197; --shadow-rgb:0 0 0; --navy-shadow-rgb:4 17 30; --line:rgb(var(--gray-rgb) / .24); --heading:'Oswald',sans-serif; --body:'Belleza',serif; }
+:root { --navy:#071a2f; --navy-deep:#071a2f; --medium:#0d2a47; --blue:#36b9ff; --blue-dark:#0d2a47; --light:#eaf7ff; --white:#ffffff; --gray:#a8b6c5; --navy-rgb:7 26 47; --medium-rgb:13 42 71; --blue-rgb:54 185 255; --gray-rgb:168 182 197; --shadow-rgb:0 0 0; --navy-shadow-rgb:4 17 30; --line:rgb(var(--gray-rgb) / .24); --heading:'Fredoka',sans-serif; --body:'Nunito',sans-serif; }
 * { box-sizing:border-box; }
 html { scroll-behavior:smooth; background:var(--navy); scroll-padding-top:108px; }
 body { margin:0; background:var(--navy); color:var(--white); font-family:var(--body); font-size:16px; line-height:1.55; }
